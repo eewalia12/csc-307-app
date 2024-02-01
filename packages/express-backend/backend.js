@@ -88,8 +88,10 @@ const addUser = (user) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  const id = Math.random();
+  userToAdd["id"] = id.toString();
   addUser(userToAdd);
-  res.send();
+  res.status(201).send(userToAdd);
 });
 
 app.delete("/users/:id", (req, res) => {
@@ -97,10 +99,10 @@ app.delete("/users/:id", (req, res) => {
   const userIndex = users["users_list"].findIndex((user) => user["id"] === id);
 
   if (userIndex === -1) {
-    res.status(404).send("Resource not found.");
+    res.status(404).send();
   } else {
     const deletedUser = users["users_list"].splice(userIndex, 1)[0];
-    res.send(deletedUser);
+    res.status(204).send();
   }
 });
 
